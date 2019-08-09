@@ -18,7 +18,7 @@ export class Tweets extends Component {
         <div>Found following tweets from database:</div>
         {this.props.tweets.map(tweet => (
           <article key={tweet.id} className="media content-section">
-            {tweet.id}
+            <div class="media-body" />
           </article>
         ))}
         ;
