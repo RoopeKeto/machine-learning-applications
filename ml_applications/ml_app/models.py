@@ -9,3 +9,4 @@ class Tweet(models.Model):
     user_name = models.CharField(max_length=100)
     user_followers = models.IntegerField()
     user_image_url = models.CharField(max_length=400)
+    sentiment_average = models.FloatField(null=True, blank=True, default=None)

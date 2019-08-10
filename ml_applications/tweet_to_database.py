@@ -1,4 +1,6 @@
-from fastai.text import *
+from fastai.text import load_data
+from fastai.text import text_classifier_learner
+from fastai.text import AWD_LSTM
 import json
 import twitter_credentials
 from tweepy import Stream
@@ -69,6 +71,8 @@ class TwitterListener(StreamListener):
     def __init__(self, fetched_tweets_filename, predictor_model):
         self.fetched_tweets_filename = fetched_tweets_filename
         self.counter = 0
+        self.moving_average_list = []
+
         self.predictor_model = predictor_model
 
     def on_data(self, data):
@@ -88,20 +92,30 @@ class TwitterListener(StreamListener):
                 user_followers = int(tweet['user']['followers_count'])
                 user_image_url = tweet['user']['profile_image_url']
 
+                # counting moving average of tweet sentiment based on 300 latest tweets
+
+                # ignoring first 299 tweets (0.5 as proxy)
+                if len(self.moving_average_list) <= 300:
+                    self.moving_average_list.append(tweet_sentiment)
+                    sentiment_average = 0.5
+                else:
+                    sentiment_average = sum(self.moving_average_list) / 300
+                    self.moving_average_list.append(tweet_sentiment)
+                    self.moving_average_list.pop(0)
+
                 # Inserting into database
                 try: 
                     new_tweet = Tweet(created_at=created_at, text=text,
-                                    tweet_sentiment=tweet_sentiment,user_name=user_name,user_followers=user_followers,user_image_url=user_image_url)
+                                    tweet_sentiment=tweet_sentiment,user_name=user_name,user_followers=user_followers,user_image_url=user_image_url,
+                                    sentiment_average=sentiment_average)
                     new_tweet.save()
+                except:
+                    print("error while trying to save the tweet into database")
+                    
 
-
-                # incrementing counter
-                self.counter += 1
-
-                if self.counter == 100:
-                    # getting all the tweets
-                    tweets = Tweet.objects.all().
-
+                # if counter = 100. 
+                # delete first 10 tweets -> (ids of 1 - 10)
+                
 
                 # Pseudocode for implementing tweet_deletion
                 # when counter is (let's say million) -> delete oldest thousand tweets. 

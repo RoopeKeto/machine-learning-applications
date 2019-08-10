@@ -5,21 +5,22 @@ import React, { Component } from "react";
 
 export class Form extends Component {
   state = {
-    tweet_amount: 0,
+    tweet_amount: "",
   };
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   onSubmit = e => {
     e.preventDefault();
+    console.log("submitted!")
     const { tweet_amount } = this.state;
     this.setState({
-      tweet_amount: 0,
+      tweet_amount: "",
     });
   };
 
   render() {
-    const { name, email, message } = this.state;
+    const { tweet_amount } = this.state;
     return (
       <div className="card card-body mt-4 mb-4">
         <h2>Search for tweets</h2>
@@ -28,10 +29,10 @@ export class Form extends Component {
             <label>Number of tweets</label>
             <input
               className="form-control"
-              type="text"
+              type="number"
               name="tweet_amount"
               onChange={this.onChange}
-              value={name}
+              value={tweet_amount}
             />
           </div>
           <div className="form-group">
