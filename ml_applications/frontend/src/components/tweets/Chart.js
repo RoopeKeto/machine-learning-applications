@@ -6,21 +6,45 @@ import { getTweets } from '../../actions/tweets';
 class Chart extends Component{
     
     render(){
+
         const chartData = {
-            labels: this.props.tweets.map(x => x.created_at),
+            labels: this.props.tweets.map(x => x.created_at).slice(0).reverse(),
             datasets: [
                 {
                     label:'Sentiment',
-                    data: this.props.tweets.map(x => x.sentiment_average)
+                    data: this.props.tweets.map(x => x.sentiment_average).slice(0).reverse(),
+                    pointRadius: 2
                 }
             ]
+        }
+
+        const options = {
+            title:{
+                display:true,
+                text:'Sentiment of tweets over time',
+                fontSize: 20,
+            },
+            legend:{
+                display:false,
+            },
+            tooltips:{
+                enabled:true
+            },
+            scales:{
+                yAxes:[{
+                    ticks: {
+                        suggestedMin: 0,
+                        suggestedMax: 1
+                    }
+                }]
+            }
         }
 
         return(
             <div className="chart">
             <Line
                 data={chartData}
-                options={{}}
+                options={options}
             />
             </div>
             

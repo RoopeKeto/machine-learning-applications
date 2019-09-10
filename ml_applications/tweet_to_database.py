@@ -164,7 +164,7 @@ def getText(data):
 
 if __name__ == "__main__":
 
-    hash_tag_list = ["tesla"]
+    hash_tag_list = ["tesla", "bmw", "nissan", "toyota","volkswagen"]
     fetched_tweets_filename = "tesla_tweets.txt"
 
     # loading the previously trained classifier

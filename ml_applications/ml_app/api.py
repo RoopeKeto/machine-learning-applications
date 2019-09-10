@@ -12,9 +12,10 @@ class TweetViewSet(viewsets.ModelViewSet):
         number_of_tweets = self.request.query_params.get('number_of', None)
 
         if number_of_tweets is not None:
+            queryset = queryset.order_by('-created_at')
             queryset = queryset[:int(number_of_tweets)]
         return queryset
-    #.order_by('tweet_sentiment')
+
     permission_classes = [
         permissions.AllowAny
     ]

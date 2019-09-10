@@ -10,7 +10,7 @@ export class Tweets extends Component {
   };
 
   componentDidMount() {
-    this.props.getTweets("10");
+    this.props.getTweets("500");
   };
 
 
@@ -41,7 +41,6 @@ export class Tweets extends Component {
     return (
       <Fragment>
         {this.props.tweets
-          //.filter(tweet => tweet.tweet_sentiment  0.)
           .sort((a, b) => a.created_at - b.created_at)
           .map(tweet => (
             <article key={tweet.id} className="media" style={contentSection}>
