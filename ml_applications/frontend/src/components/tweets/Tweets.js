@@ -51,7 +51,7 @@ export class Tweets extends Component {
               <div className="media-body">
                 <div style={articleMetadata}>
                   <strong>{tweet.user_name}</strong>
-                  <small className="text-muted">{" "}{tweet.created_at}</small>
+                  <small className="text-muted">{" "}{tweet.created_at.slice(0,16).replace("T"," ")}</small>
                 </div>
                 <div className="article-content">
                   {tweet.text}

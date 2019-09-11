@@ -33,22 +33,21 @@ export class Form extends Component {
     const { tweet_amount, tweet_sort_order } = this.state;
     return (
       <div className="card card-body mt-4 mb-4">
-        <h2>Search for tweets</h2>
         <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label>Number of tweets</label>
-            <input
-              className="form-control"
-              type="number"
-              name="tweet_amount"
-              onChange={this.onChange}
-              value={tweet_amount}
-            />
-          </div>
-          <div className="form-group">
-            <button type="submit" className="btn btn-primary">
-              Search
-            </button>
+          <div className="form-inline">
+            <div class="form-group mb-2">
+              <label>How many tweets to show</label>
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+              <input
+                className="form-control"
+                type="number"
+                name="tweet_amount"
+                onChange={this.onChange}
+                value={tweet_amount}
+              />
+            </div>            
+            <button type="submit" className="btn btn-primary mb-2">Search</button>
           </div>
         </form>
       </div>

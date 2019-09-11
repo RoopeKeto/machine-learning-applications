@@ -70,8 +70,10 @@ class TwitterListener(StreamListener):
 
     def __init__(self, fetched_tweets_filename, predictor_model):
         self.fetched_tweets_filename = fetched_tweets_filename
-        self.counter = 0
         self.moving_average_list = []
+
+        # initializing moving_average for 3000 latest tweets
+        self.moving_average_long_list = []
 
         self.predictor_model = predictor_model
 
@@ -103,20 +105,27 @@ class TwitterListener(StreamListener):
                     self.moving_average_list.append(tweet_sentiment)
                     self.moving_average_list.pop(0)
 
+                # counting moving average "long" of tweet sentiment based on 3000 latest tweets
+
+                # ignoring first 2999 tweets (0.5 as proxy)
+                if len(self.moving_average_long_list) <= 2999:
+                    self.moving_average_long_list.append(tweet_sentiment)
+                    sentiment_average_long = 0.5
+                else:
+                    sentiment_average_long = sum(self.moving_average_long_list) / 3000
+                    self.moving_average_long_list.append(tweet_sentiment)
+                    self.moving_average_long_list.pop(0)
+                
+
                 # Inserting into database
                 try: 
                     new_tweet = Tweet(created_at=created_at, text=text,
                                     tweet_sentiment=tweet_sentiment,user_name=user_name,user_followers=user_followers,user_image_url=user_image_url,
-                                    sentiment_average=sentiment_average)
+                                    sentiment_average=sentiment_average, sentiment_average_long=sentiment_average_long)
                     new_tweet.save()
                 except:
                     print("error while trying to save the tweet into database")
                     
-
-                # if counter = 100. 
-                # delete first 10 tweets -> (ids of 1 - 10)
-                
-
                 # Pseudocode for implementing tweet_deletion
                 # when counter is (let's say million) -> delete oldest thousand tweets. 
                 # then make counter to million minus thousand
@@ -164,7 +173,8 @@ def getText(data):
 
 if __name__ == "__main__":
 
-    hash_tag_list = ["tesla", "bmw", "nissan", "toyota","volkswagen"]
+    hash_tag_list = ["tesla"]
+    
     fetched_tweets_filename = "tesla_tweets.txt"
 
     # loading the previously trained classifier

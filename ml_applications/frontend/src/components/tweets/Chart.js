@@ -8,12 +8,19 @@ class Chart extends Component{
     render(){
 
         const chartData = {
-            labels: this.props.tweets.map(x => x.created_at).slice(0).reverse(),
+            labels: this.props.tweets.map(x => x.created_at.slice(5,16).replace("T"," ")).slice(0).reverse(),
             datasets: [
                 {
-                    label:'Sentiment',
+                    label:'Average sentiment of last 300 tweets',
                     data: this.props.tweets.map(x => x.sentiment_average).slice(0).reverse(),
-                    pointRadius: 2
+                    pointRadius: 2,
+                    backgroundColor: 'rgba(102,153,153,0.2)'
+                },
+                {
+                    label:'Average sentiment of last 3000 tweets',
+                    data: this.props.tweets.map(x => x.sentiment_average_long).slice(0).reverse(),
+                    pointRadius: 2,
+                    backgroundColor: 'rgba(255,0,0,0.2)'
                 }
             ]
         }
@@ -25,7 +32,7 @@ class Chart extends Component{
                 fontSize: 20,
             },
             legend:{
-                display:false,
+                display:true,
             },
             tooltips:{
                 enabled:true
@@ -35,6 +42,9 @@ class Chart extends Component{
                     ticks: {
                         suggestedMin: 0,
                         suggestedMax: 1
+                    },
+                    scaleLabel: {
+                        labelString:'0 = most negative - 1 = most positive'
                     }
                 }]
             }
