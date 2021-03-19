@@ -6,7 +6,7 @@ certifi==2019.6.16
 chardet==3.0.4
 cycler==0.10.0
 cymem==2.0.2
-Django==2.2.4
+Django==2.2.18
 djangorestframework==3.10.2
 fastprogress==0.1.21
 idna==2.8
