@@ -7,7 +7,7 @@ chardet==3.0.4
 cycler==0.10.0
 cymem==2.0.2
 Django==2.2.4
-djangorestframework==3.10.2
+djangorestframework==3.11.2
 fastprogress==0.1.21
 idna==2.8
 kiwisolver==1.1.0
